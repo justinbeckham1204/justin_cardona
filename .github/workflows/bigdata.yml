@@ -1,0 +1,40 @@
+name: Pipeline Big Data - EA1 Ingesta
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  ingesta:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: pip install requests pandas openpyxl
+
+      - name: Ejecutar la ingesta de datos
+        run: python src/ingestion.py
+
+      - name: Verificar artefactos generados
+        run: |
+          test -f src/db/ingestion.db && echo "Base de datos OK"
+          test -f src/xlsx/ingestion.xlsx && echo "Muestra Excel OK"
+          test -f src/static/auditoria/ingestion.txt && echo "Auditoria OK"
+          cat src/static/auditoria/ingestion.txt
+
+      - name: Publicar evidencias como artefactos
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencias-ingesta
+          path: |
+            src/db/ingestion.db
+            src/xlsx/ingestion.xlsx
+            src/static/auditoria/ingestion.txt
