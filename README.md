@@ -33,9 +33,25 @@ justin_cardona/
     │   └── ingestion.xlsx
     └── ingestion.py
 
+---
+
+## 3. Instrucciones de Instalación y Ejecución Local
+
+1. **Clonar el repositorio:**
+
 git clone https://github.com/justinbeckham1204/justin_cardona.git
 cd justin_cardona
 
+
+2. **Instalar dependencias:**
+
 pip install requests pandas openpyxl
 
+
+3. **Ejecutar el pipeline de ingesta:**
+
 python src/ingestion.py
+---
+
+## 4. Automatización con GitHub Actions
+El flujo de trabajo automatizado se encuentra en `.github/workflows/bigdata.yml`. Se ejecuta automáticamente tras cada evento `push` o manualmente mediante `workflow_dispatch` desde la pestaña **Actions** en GitHub, generando los artefactos correspondientes.
