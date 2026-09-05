@@ -13,19 +13,29 @@ DB_PATH = os.path.join(BASE_DIR, "src", "db", "ingestion.db")
 XLSX_PATH = os.path.join(BASE_DIR, "src", "xlsx", "ingestion.xlsx")
 AUDIT_PATH = os.path.join(BASE_DIR, "src", "static", "auditoria", "ingestion.txt")
 
+# URL directa y endpoint alternativo
 API_URL = "https://restcountries.com/v3.1/all?fields=name,cca3,capital,region,subregion,population,area"
+API_BACKUP = "https://restcountries.com/v3.1/region/americas?fields=name,cca3,capital,region,subregion,population,area"
 
 def extraer_datos():
-    headers = {"User-Agent": "Mozilla/5.0"}
-    respuesta = requests.get(API_URL, headers=headers, timeout=60)
-    respuesta.raise_for_status()
-    return respuesta.json()
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    try:
+        respuesta = requests.get(API_URL, headers=headers, timeout=30)
+        datos = respuesta.json()
+        if isinstance(datos, list):
+            return datos
+    except Exception:
+        pass
+
+    # Intentar endpoint alternativo en caso de bloqueo
+    respuesta = requests.get(API_BACKUP, headers=headers, timeout=30)
+    datos = respuesta.json()
+    if isinstance(datos, list):
+        return datos
+    raise ValueError("No se pudo obtener una respuesta válida del API")
 
 def transformar(datos_api):
     registros = []
-    if not isinstance(datos_api, list):
-        raise ValueError("La respuesta de la API no es una lista válida")
-        
     for pais in datos_api:
         if isinstance(pais, dict):
             registros.append({
