@@ -1,0 +1,10 @@
+REPORTE DE AUDITORIA - ETAPA DE INGESTA
+=======================================================
+Registros extraidos del API      : 10
+Registros almacenados en SQLite  : 10
+Claves en API y no en BD         : ninguna
+Claves en BD y no en API         : ninguna
+Suma de poblacion (API)          : 3759601559
+Suma de poblacion (BD)           : 3759601559
+Integridad de conteo             : OK
+Integridad de campo clave        : OK
