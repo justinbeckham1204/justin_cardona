@@ -31,8 +31,8 @@ justin_cardona/
     │   └── ingestion.db
     ├── xlsx/
     │   └── ingestion.xlsx
-    └── ingestion.py ```
-
+    └── ingestion.py 
+```
 ---
 
 ## 3. Instrucciones de Instalación y Ejecución Local
