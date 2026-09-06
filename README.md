@@ -50,7 +50,7 @@ pip install requests pandas openpyxl
 
 3. **Ejecutar el pipeline de ingesta:**
 
-python src/ingestion.py
+   python src/ingestion.py
 ---
 
 ## 4. Automatización con GitHub Actions
