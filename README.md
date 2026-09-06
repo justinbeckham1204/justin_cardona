@@ -61,12 +61,5 @@ El flujo de trabajo automatizado se encuentra en `.github/workflows/bigdata.yml`
 
 ---
 
-### Cumplimiento final de la Rúbrica de Evaluación
 
-Una vez arreglado ese bloque en el `README.md`, el repositorio cumplirá el 100% de los criterios exigidos:
 
-* **Alojamiento y Estructura:** La jerarquía de carpetas (`src/db/`, `src/xlsx/`, `src/static/auditoria/`, `.github/workflows/`) coincide exactamente con el requerimiento especificado en `image_895e6d.png`.
-* **Automatización y Ejecución (30 pts):** Incluye el workflow `bigdata.yml` para ejecutar el script de ingesta de forma automática.
-* **Extracción de Datos desde el API (30 pts):** El script `ingestion.py` procesa los datos requeridos desde la API REST.
-* **Generación de Salidas (30 pts):** Contiene la base de datos SQLite, el reporte de auditoría en `.txt` y la muestra en `.xlsx`.
-* **Puntualidad y Entrega (10 pts):** Solo requiere enviar la URL pública del repositorio en la plataforma educativa.
