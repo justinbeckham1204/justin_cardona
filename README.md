@@ -57,8 +57,6 @@ pip install requests pandas openpyxl
 El flujo de trabajo automatizado se encuentra en `.github/workflows/bigdata.yml`. Se ejecuta automáticamente tras cada evento `push` o manualmente mediante `workflow_dispatch` desde la pestaña **Actions** en GitHub, generando los artefactos correspondientes.
 
 
-4. Haz clic en el botón verde **Commit changes...** arriba a la derecha para guardar.
-
 ---
 
 
