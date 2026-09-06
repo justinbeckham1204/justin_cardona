@@ -9,44 +9,34 @@ DB_PATH = os.path.join(BASE_DIR, "src", "db", "ingestion.db")
 XLSX_PATH = os.path.join(BASE_DIR, "src", "xlsx", "ingestion.xlsx")
 AUDIT_PATH = os.path.join(BASE_DIR, "src", "static", "auditoria", "ingestion.txt")
 
-# Usamos v2 de la API que responde de forma inmediata en servidores cloud
-API_URL = "https://restcountries.com/v2/all"
+# Endpoint directo mirror de REST Countries v2 en GitHub (No bloquea Colab)
+API_URL = "https://raw.githubusercontent.com/mledoze/countries/master/countries.json"
 
 def extraer_datos():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    }
     try:
-        respuesta = requests.get(API_URL, headers=headers, timeout=20)
+        respuesta = requests.get(API_URL, timeout=15)
         if respuesta.status_code == 200:
             datos = respuesta.json()
             if isinstance(datos, list) and len(datos) > 0:
                 return datos
     except Exception as e:
-        print(f"Error en la petición API: {e}")
+        print(f"Error al consumir API: {e}")
     return []
 
 def transformar(datos_api):
     registros = []
     for pais in datos_api:
         if isinstance(pais, dict):
-            # Formato compatible para API v2 / v3
             capital = pais.get("capital")
-            if isinstance(capital, list) and len(capital) > 0:
-                capital_val = capital[0]
-            elif isinstance(capital, str):
-                capital_val = capital
-            else:
-                capital_val = None
-
-            nombre_comun = pais.get("name")
-            if isinstance(nombre_comun, dict):
-                nombre_comun = nombre_comun.get("common")
+            capital_val = capital[0] if isinstance(capital, list) and len(capital) > 0 else None
+            
+            nombre_comun = pais.get("name", {}).get("common") if isinstance(pais.get("name"), dict) else pais.get("name")
+            nombre_oficial = pais.get("name", {}).get("official") if isinstance(pais.get("name"), dict) else None
 
             registros.append({
-                "cca3": pais.get("alpha3Code") or pais.get("cca3"),
+                "cca3": pais.get("cca3"),
                 "nombre_comun": nombre_comun,
-                "nombre_oficial": pais.get("nativeName") or nombre_comun,
+                "nombre_oficial": nombre_oficial,
                 "capital": capital_val,
                 "region": pais.get("region"),
                 "subregion": pais.get("subregion"),

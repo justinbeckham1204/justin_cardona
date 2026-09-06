@@ -1,7 +1,7 @@
 REPORTE DE AUDITORIA - ETAPA DE INGESTA
 =======================================================
-Registros extraidos del API      : 0
-Registros almacenados en SQLite  : 0
+Registros extraidos del API      : 250
+Registros almacenados en SQLite  : 250
 Claves en API y no en BD         : ninguna
 Claves en BD y no en API         : ninguna
 Suma de poblacion (API)          : 0
