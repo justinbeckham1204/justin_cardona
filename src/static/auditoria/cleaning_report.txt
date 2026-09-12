@@ -1,0 +1,5 @@
+REPORTE DE AUDITORIA - EA2
+=======================================================
+Registros analizados (Antes) : 250
+Registros limpios (Después)  : 250
+Estado de calidad            : LIMPIEZA EXITOSA - 100% CONSISTENTE
