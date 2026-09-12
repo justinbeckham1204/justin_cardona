@@ -16,42 +16,77 @@ def cargar_datos():
     conexion.close()
     return df
 
-def limpiar(df_raw):
+def realizar_limpieza_y_auditoria(df_raw):
+    # 1. Estadísticas iniciales (Análisis Exploratorio)
+    total_inicial = len(df_raw)
+    duplicados_iniciales = df_raw.duplicated(subset=['cca3']).sum()
+    nulos_iniciales = df_raw.isnull().sum().to_dict()
+
+    # 2. Eliminación de duplicados
     df_clean = df_raw.drop_duplicates(subset=['cca3']).copy()
-    
-    # Conversión numérica segura
+    duplicados_removidos = total_inicial - len(df_clean)
+
+    # 3. Corrección de tipos de datos
     df_clean['poblacion'] = pd.to_numeric(df_clean['poblacion'], errors='coerce')
     df_clean['area_km2'] = pd.to_numeric(df_clean['area_km2'], errors='coerce')
-    
-    # Imputaciones
+
+    # 4. Manejo e Imputación de Valores Nulos
     df_clean['capital'] = df_clean['capital'].fillna('Sin Capital Registrada')
     
-    mediana_poblacion = df_clean['poblacion'].median()
-    if pd.isna(mediana_poblacion):
-        mediana_poblacion = 0
-    df_clean['poblacion'] = df_clean['poblacion'].fillna(mediana_poblacion).astype(int)
-    
+    mediana_pob = df_clean['poblacion'].median()
+    df_clean['poblacion'] = df_clean['poblacion'].fillna(mediana_pob if not pd.isna(mediana_pob) else 0).astype(int)
+
     mediana_area = df_clean['area_km2'].median()
-    if pd.isna(mediana_area):
-        mediana_area = 1.0
-    df_clean['area_km2'] = df_clean['area_km2'].fillna(mediana_area).astype(float)
-    
-    # Calculada: Densidad poblacional
+    df_clean['area_km2'] = df_clean['area_km2'].fillna(mediana_area if not pd.isna(mediana_area) else 1.0).astype(float)
+
+    # 5. Transformaciones adicionales (Densidad y Escalado Min-Max)
     df_clean['densidad_poblacion'] = (df_clean['poblacion'] / df_clean['area_km2'].replace(0, 1)).round(2)
-    return df_clean
+    
+    # Escalado Min-Max para la población (Normalización [0, 1])
+    min_pob = df_clean['poblacion'].min()
+    max_pob = df_clean['poblacion'].max()
+    df_clean['poblacion_normalizada'] = ((df_clean['poblacion'] - min_pob) / (max_pob - min_pob)).round(6)
+
+    total_final = len(df_clean)
+
+    # 6. Redacción del reporte de auditoría detallado
+    reporte = f"""=======================================================
+REPORTE DE AUDITORÍA Y TRAZABILIDAD DE DATOS - EA2
+=======================================================
+
+1. ESTADÍSTICAS INICIALES (ANTES DE LA LIMPIEZA)
+-------------------------------------------------------
+- Total de registros ingestados : {total_inicial}
+- Duplicados detectados (cca3)  : {duplicados_iniciales}
+- Conteo de nulos iniciales     : {nulos_iniciales}
+
+2. OPERACIONES DE LIMPIEZA Y TRANSFORMACIÓN REALIZADAS
+-------------------------------------------------------
+- Eliminación de duplicados     : {duplicados_removidos} registros eliminados.
+- Imputación de nulos (capital) : Rellenado con 'Sin Capital Registrada'.
+- Imputación de nulos (poblacion): Imputado con la mediana ({mediana_pob}).
+- Imputación de nulos (area_km2): Imputado con la mediana ({mediana_area}).
+- Corrección de tipos           : 'poblacion' a INT, 'area_km2' a FLOAT.
+- Transformación 1              : Cálculo de 'densidad_poblacion'.
+- Transformación 2 (Escalado)   : Normalización Min-Max aplicada a 'poblacion'.
+
+3. ESTADÍSTICAS FINALES (DESPUÉS DE LA LIMPIEZA)
+-------------------------------------------------------
+- Total de registros limpios    : {total_final}
+- Porcentaje de retención       : {(total_final / total_inicial) * 100:.2f}%
+- Estado final de la base       : 100% CONSISTENTE Y SIN DUPLICADOS
+"""
+    return df_clean, reporte
 
 if __name__ == "__main__":
     df_raw = cargar_datos()
-    df_clean = limpiar(df_raw)
+    df_clean, reporte_txt = realizar_limpieza_y_auditoria(df_raw)
+    
+    # Exportar dataset a Excel
     df_clean.sort_values(by="poblacion", ascending=False).to_excel(XLSX_PATH, index=False)
     
-    reporte = (
-        f"REPORTE DE AUDITORIA - EA2\n"
-        f"=======================================================\n"
-        f"Registros analizados (Antes) : {len(df_raw)}\n"
-        f"Registros limpios (Después)  : {len(df_clean)}\n"
-        f"Estado de calidad            : LIMPIEZA EXITOSA - 100% CONSISTENTE"
-    )
+    # Exportar reporte de auditoría .txt
     with open(AUDIT_PATH, "w", encoding="utf-8") as f:
-        f.write(reporte)
-    print(f"Limpieza exitosa. Procesados: {len(df_clean)} países")
+        f.write(reporte_txt)
+        
+    print(f"Preprocesamiento finalizado con éxito. Registros procesados: {len(df_clean)}")

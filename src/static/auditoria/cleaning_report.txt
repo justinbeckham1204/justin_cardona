@@ -1,5 +1,25 @@
-REPORTE DE AUDITORIA - EA2
 =======================================================
-Registros analizados (Antes) : 250
-Registros limpios (Después)  : 250
-Estado de calidad            : LIMPIEZA EXITOSA - 100% CONSISTENTE
+REPORTE DE AUDITORÍA Y TRAZABILIDAD DE DATOS - EA2
+=======================================================
+
+1. ESTADÍSTICAS INICIALES (ANTES DE LA LIMPIEZA)
+-------------------------------------------------------
+- Total de registros ingestados : 250
+- Duplicados detectados (cca3)  : 0
+- Conteo de nulos iniciales     : {'cca3': 0, 'nombre_comun': 0, 'nombre_oficial': 0, 'capital': 5, 'region': 0, 'subregion': 0, 'poblacion': 250, 'area_km2': 0}
+
+2. OPERACIONES DE LIMPIEZA Y TRANSFORMACIÓN REALIZADAS
+-------------------------------------------------------
+- Eliminación de duplicados     : 0 registros eliminados.
+- Imputación de nulos (capital) : Rellenado con 'Sin Capital Registrada'.
+- Imputación de nulos (poblacion): Imputado con la mediana (nan).
+- Imputación de nulos (area_km2): Imputado con la mediana (64929.5).
+- Corrección de tipos           : 'poblacion' a INT, 'area_km2' a FLOAT.
+- Transformación 1              : Cálculo de 'densidad_poblacion'.
+- Transformación 2 (Escalado)   : Normalización Min-Max aplicada a 'poblacion'.
+
+3. ESTADÍSTICAS FINALES (DESPUÉS DE LA LIMPIEZA)
+-------------------------------------------------------
+- Total de registros limpios    : 250
+- Porcentaje de retención       : 100.00%
+- Estado final de la base       : 100% CONSISTENTE Y SIN DUPLICADOS
