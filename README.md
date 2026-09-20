@@ -136,3 +136,52 @@ pip install pandas openpyxl requests
 ## 4. Automatización con GitHub Actions
 
 El flujo de trabajo automatizado se encuentra en .github/workflows/bigdata.yml. Se ejecuta automáticamente tras cada evento push a la rama main o de forma manual mediante workflow_dispatch, realizando la extracción, limpieza de datos y generación de artefactos de auditoría de forma 100% autónoma.
+
+
+
+# EA3. Enriquecimiento de Datos en Plataforma de Big Data en la Nube - Proyecto Integrador Big Data - Pipeline de Procesamiento, Limpieza y Enriquecimiento (EA1, EA2 y EA3)
+
+**Estudiante:** Justin Beckham Cardona Yepes  
+**Asignatura:** Infraestructura y Arquitectura para Big Data  
+**Institución:** Institución Universitaria Digital de Antioquia (IU Digital)  
+**Repositorio:** [justin_cardona](https://github.comjustinbeckham1204/justin_cardona)  
+
+---
+
+## 📌 Resumen General del Proyecto
+Este proyecto integrador consolida un pipeline de Big Data dividido en tres fases secuenciales y autónomas (**EA1, EA2 y EA3**), abarcando desde la ingesta inicial de una API pública hasta el preprocesamiento, limpieza y cruzado heterogéneo multiformato usando el estándar **`cca3`**.
+
+---
+
+## 🛠️ Estructura del Repositorio
+El repositorio incluye los scripts de ingesta (`EA1`), limpieza (`EA2`) y enriquecimiento (`EA3`), además de las carpetas de bases de datos, fuentes raw, auditoría y los entregables en Excel.
+
+---
+
+## 🚀 Fases del Pipeline (Entregables Autónomos)
+- **EA1. Ingestión de Datos:** Extracción desde la API `REST Countries`, persistencia en SQLite (`src/db/ingestion.db`) y generación de reportes.
+- **EA2. Preprocesamiento y Limpieza:** Depuración de duplicados por `cca3`, imputación de nulos y normalización Min-Max.
+- **EA3. Enriquecimiento Heterogéneo:** Integración relacional (Left Join por `cca3`) de 6 fuentes multiformato (JSON, CSV, XML, HTML, TXT, XLSX).
+
+---
+
+## 💻 Instrucciones de Ejecución
+1. Clonar el repositorio e instalar dependencias: `pip install requests pandas openpyxl lxml`
+2. Ejecutar secuencialmente:
+   - `python src/ingestion.py` (EA1)
+   - `python src/cleaning.py` (EA2)
+   - `python src/enrichment.py` (EA3)
+"""
+
+# Escribir el nuevo contenido en el archivo README.md
+with open("README.md", "w", encoding="utf-8") as f:
+    f.write(readme_completo)
+
+# Configurar Git y enviar los cambios al repositorio remoto
+!git config user.email "{EMAIL}"
+!git config user.name "{USER}"
+!git remote set-url origin https://{TOKEN}@://github.com{USER}/{REPO}.git
+
+!git add README.md
+!git commit -m "Docs: Actualizacion completa y unificada del README.md incluyendo EA3"
+!git push origin main --force
