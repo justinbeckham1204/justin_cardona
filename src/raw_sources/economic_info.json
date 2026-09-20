@@ -1,0 +1,7 @@
+[
+  {"cca3": "COL", "gdp_usd": 343939000000, "income_group": "Upper middle income"},
+  {"cca3": "USA", "gdp_usd": 25462700000000, "income_group": "High income"},
+  {"cca3": "BRA", "gdp_usd": 1920000000000, "income_group": "Upper middle income"},
+  {"cca3": "ESP", "gdp_usd": 1397000000000, "income_group": "High income"},
+  {"cca3": "MEX", "gdp_usd": 1414000000000, "income_group": "Upper middle income"}
+]

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<telecom_data>
+    <country><cca3>COL</cca3><calling_code>+57</calling_code><tld>.co</tld></country>
+    <country><cca3>USA</cca3><calling_code>+1</calling_code><tld>.us</tld></country>
+    <country><cca3>BRA</cca3><calling_code>+55</calling_code><tld>.br</tld></country>
+    <country><cca3>ESP</cca3><calling_code>+34</calling_code><tld>.es</tld></country>
+    <country><cca3>MEX</cca3><calling_code>+52</calling_code><tld>.mx</tld></country>
+</telecom_data>

@@ -1,0 +1,6 @@
+cca3|currency_code|risk_rating
+COL|COP|Moderate
+USA|USD|Low
+BRA|BRL|Moderate
+ESP|EUR|Low
+MEX|MXN|Moderate
