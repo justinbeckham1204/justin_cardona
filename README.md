@@ -165,12 +165,42 @@ El repositorio incluye los scripts de ingesta (`EA1`), limpieza (`EA2`) y enriqu
 
 ---
 
-## 💻 Instrucciones de Ejecución
-1. Clonar el repositorio e instalar dependencias: `pip install requests pandas openpyxl lxml`
-2. Ejecutar secuencialmente:
-   - `python src/ingestion.py` (EA1)
-   - `python src/cleaning.py` (EA2)
-   - `python src/enrichment.py` (EA3)
+
+# Instrucciones de Clonación y Ejecución
+
+### 1. Clonar el repositorio:
+```bash
+git clone https://github.com/justinbeckham1204/justin_cardona.git
+cd justin_cardona
+```
+
+### 2. Instalar dependencias necesarias:
+```bash
+pip install requests pandas openpyxl lxml html5lib
+```
+
+### 3. Ejecutar los scripts de manera secuencial:
+```bash
+python src/ingestion.py   # Ingesta inicial (EA1)
+python src/cleaning.py    # Limpieza y normalización (EA2)
+python src/enrichment.py  # Enriquecimiento multiformato (EA3)
+```
+
+---
+
+# Workflow Automatizado mediante GitHub Actions
+
+El repositorio cuenta con una integración continua (CI/CD) configurada en `.github/workflows/bigdata.yml`.
+
+### Funcionamiento del Workflow:
+
+1. **Disparador (Trigger):** Se activa automáticamente con cada evento `push` sobre la rama `main` o mediante ejecución manual (`workflow_dispatch`).
+2. **Entorno de Ejecución:** Aprovisiona una máquina virtual `ubuntu-latest` con Python 3.10.
+3. **Instalación de Entorno:** Actualiza `pip` e instala las librerías `pandas`, `openpyxl`, `requests`, `lxml` y `html5lib`.
+4. **Ejecución:** Ejecuta de forma autónoma el script `src/enrichment.py`.
+5. **Persistencia:** Si se generan cambios en el archivo Excel unificado (`enriched_data.xlsx`) o en el reporte de trazabilidad (`enriched_report.txt`), el bot de GitHub Actions realiza un `commit` y un `push` automático reservando los artefactos actualizados en el repositorio.
+Usa el código con precaución.
+
 """
 
 # Escribir el nuevo contenido en el archivo README.md
