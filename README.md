@@ -218,7 +218,7 @@ with open("README.md", "w", encoding="utf-8") as f:
 
 
 
-### EA4. Documentación de la Arquitectura y Modelo de Datos
+# EA4. Documentación de la Arquitectura y Modelo de Datos
 Esta etapa consolida y documenta la arquitectura completa del proyecto (EA1, EA2 y EA3), explicando el flujo de datos desde la ingesta hasta el enriquecimiento, junto con el modelo de datos resultante del proceso de integración (esquema, relaciones y diagrama ER).
 
 El documento completo se encuentra en:
