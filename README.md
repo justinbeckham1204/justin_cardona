@@ -227,7 +227,7 @@ Esta etapa consolida y documenta la arquitectura completa del proyecto (EA1, EA2
 
 El documento completo se encuentra en:
 
- [`docs/arquitectura_modelo.pdf`]
+📄 [docs/arquitectura_modelo.pdf](docs/arquitectura_modelo.pdf)
 
 Incluye:
 - Descripción general de la arquitectura y sus componentes principales.
