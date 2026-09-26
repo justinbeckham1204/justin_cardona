@@ -215,3 +215,90 @@ with open("README.md", "w", encoding="utf-8") as f:
 !git add README.md
 !git commit -m "Docs: Actualizacion completa y unificada del README.md incluyendo EA3"
 !git push origin main --force
+
+
+
+### EA4. Documentación de la Arquitectura y Modelo de Datos
+Esta etapa consolida y documenta la arquitectura completa del proyecto (EA1, EA2 y EA3), explicando el flujo de datos desde la ingesta hasta el enriquecimiento, junto con el modelo de datos resultante del proceso de integración (esquema, relaciones y diagrama ER).
+
+El documento completo se encuentra en:
+
+ [`docs/arquitectura_modelo.pdf`]
+
+Incluye:
+- Descripción general de la arquitectura y sus componentes principales.
+- Diagramas de flujo de ingesta, preprocesamiento y enriquecimiento.
+- Modelo de datos (tablas, campos, relaciones PK/FK) y diagrama ER.
+- Justificación de las herramientas utilizadas (SQLite, Pandas, PySpark, GitHub Actions).
+- Explicación del flujo de datos y la automatización del pipeline.
+- Conclusiones y recomendaciones para un entorno real de nube.
+
+---
+
+## Estructura del Repositorio
+
+```text
+justin_cardona/
+├── setup.py
+├── .gitignore
+├── README.md
+├── .github/
+│   └── workflows/
+│       └── bigdata.yml
+├── src/
+│   ├── static/
+│   │   └── auditoria/
+│   │       ├── ingestion.txt
+│   │       ├── cleaning_report.txt
+│   │       └── enriched_report.txt
+│   ├── db/
+│   │   └── ingestion.db
+│   ├── xlsx/
+│   │   ├── ingestion.xlsx
+│   │   ├── cleaned_data.xlsx
+│   │   └── enriched_data.xlsx
+│   ├── ingestion.py
+│   ├── cleaning.py
+│   └── enrichment.py
+└── docs/
+    └── arquitectura_modelo.pdf
+```
+
+---
+
+## ⚙️ Instrucciones de Instalación y Ejecución Local
+
+1. **Clonar el repositorio:**
+
+```bash
+git clone https://github.com/justinbeckham1204/justin_cardona.git
+cd justin_cardona
+```
+
+2. **Instalar dependencias necesarias:**
+
+```bash
+pip install requests pandas openpyxl lxml html5lib
+```
+
+3. **Ejecutar los scripts de manera secuencial:**
+
+```bash
+python src/ingestion.py   # Ingesta inicial (EA1)
+python src/cleaning.py    # Limpieza y normalización (EA2)
+python src/enrichment.py  # Enriquecimiento multiformato (EA3)
+```
+
+---
+
+## 🤖 Workflow Automatizado mediante GitHub Actions
+
+El repositorio cuenta con una integración continua (CI/CD) configurada en `.github/workflows/bigdata.yml`.
+
+### Funcionamiento del Workflow:
+
+1. **Disparador (Trigger):** Se activa automáticamente con cada evento `push` sobre la rama `main` o mediante ejecución manual (`workflow_dispatch`).
+2. **Entorno de Ejecución:** Aprovisiona una máquina virtual `ubuntu-latest` con Python 3.10.
+3. **Instalación de Entorno:** Actualiza `pip` e instala las librerías `pandas`, `openpyxl`, `requests`, `lxml` y `html5lib`.
+4. **Ejecución:** Ejecuta de forma autónoma los scripts de ingesta, limpieza y enriquecimiento (`src/enrichment.py`, que depende del resultado de las etapas anteriores).
+5. **Persistencia:** Si se generan cambios en los archivos Excel (`ingestion.xlsx`, `cleaned_data.xlsx`, `enriched_data.xlsx`) o en los reportes de trazabilidad, el bot de GitHub Actions realiza un `commit` y un `push` automático, dejando los artefactos actualizados en el repositorio sin intervención manual.
